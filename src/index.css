@@ -2,7 +2,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
+@font-face {
+  font-family: "font";
+  src: url(../public/Satoshi-Variable.ttf);
+}
+body{
+  font-family: "font";
+}
 @layer base {
   :root {
     --background: 0 0% 100%;

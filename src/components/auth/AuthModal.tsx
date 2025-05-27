@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import {
   Dialog,
@@ -12,16 +11,16 @@ import RegisterForm from './RegisterForm';
 interface AuthModalProps {
   isOpen: boolean;
   onClose: () => void;
-  defaultMode?: 'login' | 'register';
+  mode: 'login' | 'register';
 }
 
-const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, defaultMode = 'login' }) => {
-  const [mode, setMode] = useState<'login' | 'register'>(defaultMode);
+const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, mode }) => {
+  const [currentMode, setCurrentMode] = useState<'login' | 'register'>(mode);
 
-  // When modal opened, set mode to defaultMode for smoother UX
+  // When modal opened, set mode to prop value for smoother UX
   useEffect(() => {
-    setMode(defaultMode);
-  }, [defaultMode, isOpen]);
+    setCurrentMode(mode);
+  }, [mode, isOpen]);
 
   const handleSuccess = () => {
     onClose();
@@ -32,21 +31,21 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, defaultMode = 'l
       <DialogContent className="sm:max-w-md rounded-xl shadow-2xl p-0 bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800">
         <DialogHeader>
           <DialogTitle className="text-center text-2xl font-bold gradient-text mb-2">
-            {mode === 'login' ? 'Welcome Back!' : 'Create Your Account'}
+            {currentMode === 'login' ? 'Welcome Back!' : 'Create Your Account'}
           </DialogTitle>
         </DialogHeader>
         <div className="flex flex-col space-y-4 px-4 py-2">
-          {mode === 'login' ? (
+          {currentMode === 'login' ? (
             <>
               <LoginForm
                 onSuccess={handleSuccess}
-                onSwitchToRegister={() => setMode('register')}
+                onSwitchToRegister={() => setCurrentMode('register')}
               />
               <p className="text-center text-xs text-gray-500 mb-0">
                 Don&apos;t have an account?{" "}
                 <button
                   className="text-blue-600 hover:underline"
-                  onClick={() => setMode('register')}
+                  onClick={() => setCurrentMode('register')}
                 >
                   Register here
                 </button>
@@ -56,13 +55,13 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, defaultMode = 'l
             <>
               <RegisterForm
                 onSuccess={handleSuccess}
-                onSwitchToLogin={() => setMode('login')}
+                onSwitchToLogin={() => setCurrentMode('login')}
               />
               <p className="text-center text-xs text-gray-500 mb-0">
                 Already have an account?{" "}
                 <button
                   className="text-blue-600 hover:underline"
-                  onClick={() => setMode('login')}
+                  onClick={() => setCurrentMode('login')}
                 >
                   Sign in
                 </button>

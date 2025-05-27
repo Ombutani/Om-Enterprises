@@ -40,3 +40,98 @@
 .read-the-docs {
   color: #888;
 }
+
+/* Smooth Scroll Styles */
+html.has-scroll-smooth {
+  overflow: hidden;
+}
+
+.smooth-scroll {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+}
+
+[data-scroll-content] {
+  min-height: 100vh;
+  position: relative;
+  z-index: 1;
+}
+
+/* Smooth transitions */
+* {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Ensure proper height calculations */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* Fix for iOS momentum scrolling */
+.has-scroll-smooth {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* App specific styles */
+.app {
+  position: relative;
+  min-height: 100vh;
+  background-color: #ffffff;
+}
+
+main {
+  position: relative;
+  z-index: 1;
+}
+
+/* Ensure content is properly positioned */
+[data-scroll-section] {
+  position: relative;
+  width: 100%;
+}
+
+/* Fix for fixed elements */
+[data-scroll-fixed] {
+  position: fixed;
+  z-index: 10;
+}
+
+/* Ensure proper stacking context */
+[data-scroll-container] {
+  position: relative;
+  z-index: 1;
+}
+
+/* Loader Styles */
+.loader-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.9);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.loader-spinner {
+  width: 50px;
+  height: 50px;
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #3498db;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

@@ -7,16 +7,17 @@ export const useScrollAnimation = () => {
   useEffect(() => {
     if (sectionRef.current) {
       // Animate the section title
-      fadeInUp(sectionRef.current.querySelector('.section-title'), 0.2);
+      fadeInUp(sectionRef.current.querySelector('.section-title') as Element, 0.2);
       
       // Animate the section content
-      fadeIn(sectionRef.current.querySelector('.section-content'), 0.4);
+      fadeIn(sectionRef.current.querySelector('.section-content') as Element, 0.4);
       
       // Animate any cards or items with stagger effect
-      staggerFadeInUp(sectionRef.current.querySelectorAll('.card, .item'), 0.1);
+      const cards = Array.from(sectionRef.current.querySelectorAll('.card, .item'));
+      cards.forEach((card, index) => staggerFadeInUp(card as Element, 0.1 * index));
       
       // Animate any images
-      scaleIn(sectionRef.current.querySelectorAll('img'), 0.3);
+      Array.from(sectionRef.current.querySelectorAll('img')).forEach(img => scaleIn(img as Element, 0.3));
     }
   }, []);
 

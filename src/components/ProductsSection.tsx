@@ -1,15 +1,52 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Package, Truck, Factory, Zap, Globe, Shield } from 'lucide-react';
-import { useScrollAnimation } from '@/hooks/useScrollAnimation';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 const ProductsSection: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState("All");
-  const sectionRef = useScrollAnimation();
+  const sectionRef = useRef<HTMLElement>(null);
+  const titleRef = useRef<HTMLHeadingElement>(null);
+  const descriptionRef = useRef<HTMLParagraphElement>(null);
+  const cardsRef = useRef<HTMLDivElement>(null);
   
+  useEffect(() => {
+    if (sectionRef.current) {
+      gsap.registerPlugin(ScrollTrigger);
+
+      // Title animation
+      gsap.from(titleRef.current, {
+        y: 50,
+        opacity: 0,
+        duration: 0.8,
+        scrollTrigger: {
+          trigger: titleRef.current,
+          start: 'top 80%',
+          end: 'top 20%',
+          scrub: 0.5
+        }
+      });
+
+      // Description animation
+      gsap.from(descriptionRef.current, {
+        y: 30,
+        opacity: 0,
+        duration: 0.8,
+        delay: 0.1,
+        scrollTrigger: {
+          trigger: descriptionRef.current,
+          start: 'top 80%',
+          end: 'top 20%',
+          scrub: 0.5
+        }
+      });
+    }
+  }, []);
+
   const products = [
     {
       id: 1,
@@ -103,23 +140,29 @@ const ProductsSection: React.FC = () => {
   return (
     <section ref={sectionRef} className="py-20 bg-gradient-to-br from-slate-50 to-blue-50 dark:from-gray-900 dark:to-slate-900">
       <div className="container mx-auto px-4">
-        <motion.div 
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
-        >
-          <div className="inline-flex items-center px-4 py-2 bg-blue-100 dark:bg-blue-900 rounded-full text-blue-600 dark:text-blue-400 text-sm font-medium mb-4">
+        <div className="text-center mb-16">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="inline-flex items-center px-4 py-2 bg-blue-100 dark:bg-blue-900 rounded-full text-blue-600 dark:text-blue-400 text-sm font-medium mb-4"
+          >
             <Package className="w-4 h-4 mr-2" />
             Our Products
-          </div>
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
+          </motion.div>
+          <h2 
+            ref={titleRef}
+            className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6"
+          >
             Premium Quality Products
           </h2>
-          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+          <p 
+            ref={descriptionRef}
+            className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto"
+          >
             Discover our extensive range of high-quality products sourced globally and delivered with excellence.
           </p>
-        </motion.div>
+        </div>
 
         {/* Category Filter */}
         <motion.div 
@@ -136,121 +179,79 @@ const ProductsSection: React.FC = () => {
             >
               <Button
                 variant={category === activeCategory ? "default" : "outline"}
-              className={`${
+                className={`${
                   category === activeCategory 
                   ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white" 
                   : "border-gray-300 text-gray-700 dark:text-gray-300 hover:border-blue-500"
-              }`}
+                }`}
                 onClick={() => setActiveCategory(category)}
-            >
-              {category}
-            </Button>
+              >
+                {category}
+              </Button>
             </motion.div>
           ))}
         </motion.div>
 
         {/* Products Grid */}
-        <motion.div 
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
+        <div 
+          ref={cardsRef}
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
         >
-          <AnimatePresence mode="wait">
-            {filteredProducts.map((product) => {
+          {filteredProducts.map((product) => {
             const IconComponent = product.icon;
             return (
-                <motion.div
-                  key={product.id}
-                  variants={itemVariants}
-                  layout
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.9 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <Card className="group hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 bg-white dark:bg-gray-800 border-0 shadow-lg overflow-hidden">
-                    <motion.div 
-                      className="relative overflow-hidden"
-                      whileHover={{ scale: 1.02 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                  <img 
-                    src={product.image} 
-                    alt={product.name}
-                    className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-300"
-                  />
-                      <motion.div 
-                        className="absolute top-4 left-4"
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: 0.2 }}
-                      >
-                    <Badge className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white">
-                      {product.category}
-                    </Badge>
-                      </motion.div>
-                      <motion.div 
-                        className="absolute top-4 right-4 w-10 h-10 bg-white/90 rounded-full flex items-center justify-center"
-                        whileHover={{ rotate: 360 }}
-                        transition={{ duration: 0.5 }}
-                      >
-                    <IconComponent className="w-5 h-5 text-blue-600" />
-                      </motion.div>
-                    </motion.div>
-                <CardHeader>
-                      <motion.div 
-                        className="flex justify-between items-start"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.3 }}
-                      >
-                    <CardTitle className="text-xl font-bold text-gray-900 dark:text-white group-hover:text-blue-600 transition-colors">
-                      {product.name}
-                    </CardTitle>
-                    <div className="text-lg font-semibold text-blue-600 dark:text-blue-400">
-                      {product.price}
-                    </div>
-                      </motion.div>
-                  <CardDescription className="text-gray-600 dark:text-gray-300">
-                    {product.description}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                      <motion.div 
-                        className="flex flex-wrap gap-2 mb-4"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 0.4 }}
-                      >
-                    {product.features.map((feature, index) => (
-                          <motion.div
-                            key={index}
-                            initial={{ opacity: 0, scale: 0.8 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ delay: 0.1 * index }}
-                          >
-                            <Badge variant="secondary" className="text-xs">
-                        {feature}
+              <div
+                key={product.id}
+                className="product-card"
+              >
+                <Card className="group hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 bg-white dark:bg-gray-800 border-0 shadow-lg overflow-hidden">
+                  <div className="relative overflow-hidden">
+                    <img 
+                      src={product.image} 
+                      alt={product.name}
+                      className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-300"
+                    />
+                    <div className="absolute top-4 left-4">
+                      <Badge className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white">
+                        {product.category}
                       </Badge>
-                          </motion.div>
-                    ))}
-                      </motion.div>
-                      <motion.div
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                      >
-                  <Button className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white">
-                    Request Quote
-                  </Button>
-                      </motion.div>
-                </CardContent>
-              </Card>
-                </motion.div>
+                    </div>
+                    <div className="absolute top-4 right-4 w-10 h-10 bg-white/90 rounded-full flex items-center justify-center">
+                      <IconComponent className="w-5 h-5 text-blue-600" />
+                    </div>
+                  </div>
+                  <CardHeader>
+                    <div className="flex justify-between items-start">
+                      <CardTitle className="text-xl font-bold text-gray-900 dark:text-white group-hover:text-blue-600 transition-colors">
+                        {product.name}
+                      </CardTitle>
+                      <div className="text-lg font-semibold text-blue-600 dark:text-blue-400">
+                        {product.price}
+                      </div>
+                    </div>
+                    <CardDescription className="text-gray-600 dark:text-gray-300">
+                      {product.description}
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="flex flex-wrap gap-2 mb-4">
+                      {product.features.map((feature, index) => (
+                        <div key={index}>
+                          <Badge variant="secondary" className="text-xs">
+                            {feature}
+                          </Badge>
+                        </div>
+                      ))}
+                    </div>
+                    <Button className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white">
+                      Request Quote
+                    </Button>
+                  </CardContent>
+                </Card>
+              </div>
             );
           })}
-          </AnimatePresence>
-        </motion.div>
+        </div>
 
         <motion.div 
           className="text-center mt-12"
@@ -262,9 +263,9 @@ const ProductsSection: React.FC = () => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-          <Button size="lg" className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-8">
-            View All Products
-          </Button>
+            <Button size="lg" className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-8">
+              View All Products
+            </Button>
           </motion.div>
         </motion.div>
       </div>
