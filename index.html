@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Om Enterprises</title>
+  <meta name="description"
+    content="Professional import-export business solutions. We provide comprehensive international trade services including customs clearance, logistics, and compliance management." />
+  <meta name="author" content="Om Butani" />
+
+  <meta property="og:title" content="Om Enterprises" />
+  <meta property="og:description"
+    content="Professional import-export business solutions with comprehensive international trade services." />
+  <meta property="og:type" content="website" />
+
+</head>
+
+<body>
+  <div data-scroll-container>
+    <!-- Your content here -->
+  </div>
+  <div id="root"></div>
+  <!-- IMPORTANT: DO NOT REMOVE THIS SCRIPT TAG OR THIS VERY COMMENT! -->
+  <script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.js"></script>
+  <script>
+    // Initialize Locomotive Scroll
+    const scroll = new LocomotiveScroll({
+      el: document.querySelector('[data-scroll-container]'),
+      smooth: true,
+      smartphone: {
+        smooth: true,
+      },
+      tablet: {
+        smooth: true,
+      },
+    });
+
+    // Update Locomotive Scroll on page load
+    window.addEventListener('load', () => {
+      scroll.update();
+    });
+  </script>
+  <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
+  <script type="module" src="/src/main.tsx"></script>
+
+</body>
+
+</html>
