@@ -2,6 +2,7 @@ import React from 'react';
 import { Button } from '@/components/ui/button';
 import { ArrowDown, Globe, Shield, Zap } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 
 const features = [
   {
@@ -24,52 +25,93 @@ const features = [
   },
 ];
 
+// Animation variants
+const fadeDown = {
+  hidden: { opacity: 0, y: -30 },
+  visible: (delay = 0) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.7, ease: "easeOut", delay }
+  })
+};
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 30 },
+  visible: (delay = 0) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.7, ease: "easeOut", delay }
+  })
+};
+
+const fadeUpStagger = {
+  hidden: { opacity: 0, y: 30 },
+  visible: (custom) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.7, ease: "easeOut", delay: 0.4 + custom * 0.1 }
+  })
+};
+
 const HeroSection: React.FC = () => {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-b from-gray-900 to-black text-white py-12 sm:py-20">
+    <section className="relative min-h-screen flex items-center  justify-center overflow-hidden bg-gradient-to-b from-gray-900 to-black text-white py-12 sm:py-20">
       {/* Background */}
       <div className="absolute inset-0 z-0 pointer-events-none">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-blue-500/10 via-transparent to-transparent"></div>
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#4f46e5/0.08_1px,transparent_1px),linear-gradient(to_bottom,#4f46e5/0.08_1px,transparent_1px)] bg-[size:1.5rem_1.5rem] sm:bg-[size:2.5rem_2.5rem] md:bg-[size:3.5rem_3.5rem] lg:bg-[size:5rem_5rem]"></div>
       </div>
 
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-8 flex flex-col items-center">
+      <div className="relative z-10 w-full max-w-7xl mx-auto   px-4 sm:px-8 flex flex-col items-center">
         {/* Badge */}
-        <div
-          data-aos="fade-down"
-          className="flex justify-center mb-6 sm:mb-8"
+        <motion.div
+          variants={fadeDown}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          custom={0}
+          className="flex justify-center mb-6 mt-10 sm:mb-8"
         >
           <div className="inline-flex items-center px-4 py-2 bg-white/10 backdrop-blur-md rounded-full border border-white/20 text-white text-xs sm:text-sm font-medium shadow-md">
             <Globe className="w-4 h-4 mr-2" />
             <span className="whitespace-nowrap">Trusted by 500+ Companies Worldwide</span>
           </div>
-        </div>
+        </motion.div>
 
         {/* Headline */}
-        <h1
-          data-aos="fade-up"
-          data-aos-delay="100"
+        <motion.h1
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          custom={0.1}
           className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-white mb-4 sm:mb-6 leading-tight text-center"
         >
           Global Trade
           <span className="block bg-gradient-to-r from-cyan-400 via-blue-400 to-indigo-400 bg-clip-text text-transparent mt-2">
             Simplified
           </span>
-        </h1>
+        </motion.h1>
 
         {/* Subheading */}
-        <p
-          data-aos="fade-up"
-          data-aos-delay="200"
+        <motion.p
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          custom={0.2}
           className="text-base sm:text-lg md:text-xl lg:text-2xl text-slate-200 dark:text-gray-300 mb-8 sm:mb-10 max-w-xl md:max-w-2xl lg:max-w-3xl mx-auto leading-relaxed font-light px-2"
         >
           Transform your international business with our comprehensive import-export solutions. From customs clearance to global logistics, we handle it all with precision and expertise.
-        </p>
+        </motion.p>
 
         {/* CTA Buttons */}
-        <div
-          data-aos="fade-up"
-          data-aos-delay="300"
+        <motion.div
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          custom={0.3}
           className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-5 w-full max-w-xs sm:max-w-none mx-auto"
         >
           <Link to="/contact" className="w-full sm:w-auto">
@@ -90,7 +132,7 @@ const HeroSection: React.FC = () => {
               Explore Services
             </Button>
           </Link>
-        </div>
+        </motion.div>
 
         {/* Features */}
         <div className="mt-12 sm:mt-16 w-full">
@@ -109,10 +151,13 @@ const HeroSection: React.FC = () => {
             "
           >
             {features.map((feature, idx) => (
-              <div
+              <motion.div
                 key={feature.title}
-                data-aos="fade-up"
-                data-aos-delay={400 + idx * 100}
+                variants={fadeUpStagger}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-100px" }}
+                custom={idx}
                 className="flex flex-col items-center p-6 rounded-2xl bg-white/5 backdrop-blur-md border border-white/10 hover:bg-white/10 transition-all duration-300 shadow-md"
               >
                 <div className={`w-12 h-12 ${feature.bg} rounded-xl flex items-center justify-center mb-4`}>
@@ -120,7 +165,7 @@ const HeroSection: React.FC = () => {
                 </div>
                 <h3 className="text-lg md:text-xl font-semibold mb-2 text-center">{feature.title}</h3>
                 <p className="text-sm md:text-base text-gray-300 text-center">{feature.desc}</p>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>

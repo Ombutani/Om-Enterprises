@@ -616,22 +616,20 @@ const ProductsSection: React.FC = () => {
     }
   ];
 
-
   const categories = ["All", "Manufacturing", "Technology", "Automotive", "Healthcare", "Agriculture", "Chemicals"];
 
   const filteredProducts = activeCategory === "All"
     ? products
     : products.filter(product => product.category === activeCategory);
 
-  const displayedProducts = showAllProducts
-    ? filteredProducts
-    : filteredProducts.slice(0, currentPage * productsPerPage);
+  // Always show all products, regardless of pagination or showAllProducts state
+  const displayedProducts = filteredProducts;
 
   const handleLoadMore = () => {
     setCurrentPage(prev => prev + 1);
   };
 
-  const hasMoreProducts = !showAllProducts && displayedProducts.length < filteredProducts.length;
+  // No more "hasMoreProducts" logic needed since all products are always shown
 
   return (
     <section
@@ -718,55 +716,64 @@ const ProductsSection: React.FC = () => {
                 data-aos-delay={400 + index * 50}
                 className="product-card h-full flex"
               >
-                <Card className="h-full flex flex-col bg-white dark:bg-gray-800 border-0 shadow-lg overflow-hidden group w-full">
-                  <div className="relative overflow-hidden h-40 xs:h-44 sm:h-48 md:h-52 lg:h-48">
+                {/* Responsive Card Design: text left on md+ screens, centered on mobile */}
+                <Card className="h-full flex flex-col bg-white dark:bg-gray-900 border border-blue-100 dark:border-gray-800 shadow-xl rounded-2xl overflow-hidden group w-full transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
+                  {/* Image with overlay and icon */}
+                  <div className="relative overflow-hidden h-48 sm:h-56 md:h-60 lg:h-56">
                     <img
                       src={product.image}
                       alt={product.name}
-                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
                     />
-                    <div className="absolute top-2 left-2 sm:top-4 sm:left-4">
-                      <Badge className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-xs sm:text-sm">
+                    {/* Gradient overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-blue-900/60 via-blue-900/10 to-transparent pointer-events-none" />
+                    {/* Icon in a floating circle */}
+                    <div className="absolute -bottom-7 left-1/2 -translate-x-1/2 z-10">
+                      <div className="w-14 h-14 rounded-full bg-white dark:bg-gray-800 shadow-lg flex items-center justify-center border-4 border-blue-500/70 dark:border-blue-700/70">
+                        <IconComponent className="w-7 h-7 text-blue-600 dark:text-blue-400" />
+                      </div>
+                    </div>
+                    {/* Category badge */}
+                    <div className="absolute top-3 left-3">
+                      <Badge className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-xs sm:text-sm shadow-md">
                         {product.category}
                       </Badge>
                     </div>
-                    <div className="absolute top-2 right-2 sm:top-4 sm:right-4 w-8 h-8 sm:w-10 sm:h-10 bg-white/90 rounded-full flex items-center justify-center">
-                      <IconComponent className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600" />
-                    </div>
                   </div>
-                  <CardHeader className="flex-none px-4 py-3 sm:px-6 sm:py-4">
-                    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2">
-                      <CardTitle className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white line-clamp-2">
+                  {/* Card Content */}
+                  <div className="flex flex-col flex-1 pt-10 px-5 pb-5 sm:px-7 sm:pb-7">
+                    {/* Title and Price */}
+                    <div className="flex flex-col items-center text-center md:items-start md:text-left mb-2">
+                      <CardTitle className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white line-clamp-2 mb-1">
                         {product.name}
                       </CardTitle>
-                      <div className="text-base sm:text-lg font-semibold text-blue-600 dark:text-blue-400 flex-shrink-0">
+                      <div className="text-lg sm:text-xl font-semibold text-blue-600 dark:text-blue-400">
                         {product.price}
                       </div>
                     </div>
-                    <CardDescription className="text-gray-600 dark:text-gray-300 line-clamp-2 mt-1 sm:mt-2 text-sm sm:text-base">
+                    {/* Description */}
+                    <CardDescription className="text-gray-600 dark:text-gray-300 text-center md:text-left line-clamp-2 mb-3 text-sm sm:text-base">
                       {product.description}
                     </CardDescription>
-                  </CardHeader>
-                  <CardContent className="flex-grow flex flex-col px-4 pb-4 sm:px-6 sm:pb-6">
-                    <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-3 sm:mb-4">
+                    {/* Features */}
+                    <div className="flex flex-wrap justify-center md:justify-start gap-2 mb-4">
                       {product.features.map((feature, featureIndex) => (
-                        <div
+                        <Badge
                           key={featureIndex}
-                          data-aos="fade-up"
-                          data-aos-delay={400 + index * 50 + featureIndex * 50}
+                          variant="secondary"
+                          className="text-[11px] sm:text-xs px-2 py-1 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-200 border border-blue-200 dark:border-blue-700"
                         >
-                          <Badge variant="secondary" className="text-[10px] sm:text-xs">
-                            {feature}
-                          </Badge>
-                        </div>
+                          {feature}
+                        </Badge>
                       ))}
                     </div>
+                    {/* Request Quote Button */}
                     <div className="mt-auto">
-                      <Button className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white transition-transform duration-300 hover:scale-105 text-sm sm:text-base py-2 sm:py-2.5">
+                      <Button className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-lg shadow-md hover:from-blue-700 hover:to-indigo-700 transition-transform duration-300 hover:scale-105 text-base py-2.5">
                         Request Quote
                       </Button>
                     </div>
-                  </CardContent>
+                  </div>
                 </Card>
               </div>
             );
@@ -774,21 +781,7 @@ const ProductsSection: React.FC = () => {
         </div>
 
         {/* Load More / View All Button */}
-        <div
-          data-aos="fade-up"
-          data-aos-delay="500"
-          className="text-center mt-8 sm:mt-12"
-        >
-          {!showAllProducts && hasMoreProducts && (
-            <Button
-              size="lg"
-              className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-6 sm:px-8 py-2.5 sm:py-3 text-base sm:text-lg transition-transform duration-300 hover:scale-105"
-              onClick={handleLoadMore}
-            >
-              Load More Products
-            </Button>
-          )}
-        </div>
+        {/* Removed Load More button since all products are always shown */}
       </div>
     </section>
   );

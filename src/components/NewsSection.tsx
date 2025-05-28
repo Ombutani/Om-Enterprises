@@ -83,18 +83,18 @@ const NewsSection: React.FC = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <div 
+          <div
             className="inline-flex items-center px-4 py-2 bg-blue-100 dark:bg-blue-900 rounded-full text-blue-600 dark:text-blue-400 text-sm font-medium mb-4"
           >
             <Newspaper className="w-4 h-4 mr-2" />
             Latest News
           </div>
-          <h2 
+          <h2
             className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6"
           >
             Industry Updates & News
           </h2>
-          <p 
+          <p
             className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto"
           >
             Stay informed about the latest developments in international trade and logistics.
@@ -110,19 +110,19 @@ const NewsSection: React.FC = () => {
         >
           {news.map((article, index) => (
             <motion.div
-              key={article.id} 
+              key={article.id}
               className="h-full"
               variants={itemVariants}
               data-aos="fade-up"
               data-aos-delay={300 + index * 100}
             >
-              <Card className={`group hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-0 shadow-lg overflow-hidden h-full flex flex-col ${index === 0 ? 'md:col-span-2 md:flex-row' : ''}`}>
-                <div 
+              <Card className={`group hover:shadow-2xl text-left transition-all duration-300 transform hover:-translate-y-1 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-0 shadow-lg overflow-hidden h-full flex flex-col ${index === 0 ? 'md:col-span-2 md:flex-row' : ''}`}>
+                <div
                   className={`${index === 0 ? 'md:w-1/2' : ''} relative overflow-hidden ${index === 0 ? 'md:h-auto' : 'h-48'}`}
                 >
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent z-10"></div>
-                  <img 
-                    src={article.image} 
+                  <img
+                    src={article.image}
                     alt={article.title}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   />
@@ -139,7 +139,7 @@ const NewsSection: React.FC = () => {
                     </div>
                   )}
                 </div>
-                <div 
+                <div
                   className={`${index === 0 ? 'md:w-1/2' : ''} flex flex-col flex-grow p-6 ${index === 0 ? 'md:p-8' : ''}`}
                 >
                   <div className="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-3">
@@ -154,8 +154,8 @@ const NewsSection: React.FC = () => {
                   <p className={`text-gray-600 dark:text-gray-300 line-clamp-3 mb-4 flex-grow ${index === 0 ? 'text-lg' : ''}`}>
                     {article.excerpt}
                   </p>
-                  <Button 
-                    variant="ghost" 
+                  <Button
+                    variant="ghost"
                     className={`group/btn p-0 h-auto text-blue-600 hover:text-blue-700 w-fit ${index === 0 ? 'text-lg' : ''}`}
                   >
                     Read More

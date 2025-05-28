@@ -21,10 +21,10 @@ const OrderPage: React.FC = () => {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.5 }}
-      className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900"
+      className="min-h-screen bg-gradient-to-br  from-gray-900 via-gray-800 to-gray-900"
     >
       <Header />
-      <main className="container mx-auto px-4 py-8 sm:py-12 lg:py-16 sm:px-6 lg:px-8">
+      <main className="container mx-auto px-4 py-8 sm:py-12 mt-14 lg:py-16 sm:px-6 lg:px-8">
         <div className="text-center mb-8 sm:mb-12 lg:mb-16">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
