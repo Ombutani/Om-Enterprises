@@ -1,36 +1,13 @@
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+  width: 100vw;
+  min-height: 100vh;
+  padding: 0;
   text-align: center;
 }
 
 .logo {
   height: 6em;
   padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
 }
 
 .card {
@@ -41,71 +18,15 @@
   color: #888;
 }
 
-/* Smooth Scroll Styles */
-html.has-scroll-smooth {
-  overflow: hidden;
-}
-
-.smooth-scroll {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  overflow: hidden;
-}
-
-[data-scroll-content] {
-  min-height: 100vh;
-  position: relative;
-  z-index: 1;
-}
-
-/* Smooth transitions */
-* {
-  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-}
-
 /* Ensure proper height calculations */
-html, body {
-  height: 100%;
+html, body, #root {
+  width: 100vw;
+  min-height: 100vh;
   margin: 0;
   padding: 0;
-}
-
-/* Fix for iOS momentum scrolling */
-.has-scroll-smooth {
-  -webkit-overflow-scrolling: touch;
-}
-
-/* App specific styles */
-.app {
-  position: relative;
-  min-height: 100vh;
-  background-color: #ffffff;
-}
-
-main {
-  position: relative;
-  z-index: 1;
-}
-
-/* Ensure content is properly positioned */
-[data-scroll-section] {
-  position: relative;
-  width: 100%;
-}
-
-/* Fix for fixed elements */
-[data-scroll-fixed] {
-  position: fixed;
-  z-index: 10;
-}
-
-/* Ensure proper stacking context */
-[data-scroll-container] {
-  position: relative;
-  z-index: 1;
+  overflow-x: hidden;
+  overflow-y: auto;
+  box-sizing: border-box;
 }
 
 /* Loader Styles */
@@ -128,10 +49,4 @@ main {
   border: 3px solid #f3f3f3;
   border-top: 3px solid #3498db;
   border-radius: 50%;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
 }

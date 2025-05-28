@@ -11,6 +11,7 @@ import NewsSection from '@/components/NewsSection';
 import Footer from '@/components/Footer';
 import Loader from '@/components/Loader';
 
+
 const Index: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
 

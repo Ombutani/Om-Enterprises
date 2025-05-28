@@ -1,251 +1,151 @@
-import React, { useEffect, useRef } from 'react';
-import { motion } from 'framer-motion';
+import React, { useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { Building2, Globe, Award, Users, Package, ArrowRight } from 'lucide-react';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 const AboutSection: React.FC = () => {
-  const sectionRef = useRef<HTMLElement>(null);
-  const titleRef = useRef<HTMLHeadingElement>(null);
-  const descriptionRef = useRef<HTMLParagraphElement>(null);
-  const statsRef = useRef<HTMLDivElement>(null);
-  const cardsRef = useRef<HTMLDivElement>(null);
-
   useEffect(() => {
-    if (sectionRef.current) {
-      // Parallax effect for background
-      gsap.to(sectionRef.current, {
-        backgroundPosition: '50% 100%',
-        ease: 'none',
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top top',
-          end: 'bottom top',
-          scrub: true
-        }
-      });
-
-      // Title animation
-      gsap.from(titleRef.current, {
-        y: 50,
-        opacity: 0,
-        duration: 0.8,
-        scrollTrigger: {
-          trigger: titleRef.current,
-          start: 'top 80%',
-          end: 'top 20%',
-          scrub: 0.5
-        }
-      });
-
-      // Description animation
-      gsap.from(descriptionRef.current, {
-        y: 30,
-        opacity: 0,
-        duration: 0.8,
-        delay: 0.1,
-        scrollTrigger: {
-          trigger: descriptionRef.current,
-          start: 'top 80%',
-          end: 'top 20%',
-          scrub: 0.5
-        }
-      });
-
-      // Stats animation with counter effect
-      if (statsRef.current?.children) {
-        Array.from(statsRef.current.children).forEach((stat, index) => {
-          const numberElement = stat.querySelector('.text-3xl');
-          if (numberElement) {
-            const targetNumber = parseInt(numberElement.textContent?.replace(/[^0-9]/g, '') || '0');
-            gsap.from(numberElement, {
-              textContent: 0,
-              duration: 1.5,
-              ease: 'power1.out',
-              snap: { textContent: 1 },
-              stagger: 0.1,
-              scrollTrigger: {
-                trigger: stat,
-                start: 'top 80%',
-                end: 'top 20%',
-                scrub: 0.5
-              }
-            });
-          }
-        });
-      }
-
-      // Cards animation with parallax
-      if (cardsRef.current?.children) {
-        Array.from(cardsRef.current.children).forEach((card, index) => {
-          gsap.from(card, {
-            x: index % 2 === 0 ? -50 : 50,
-            opacity: 0,
-            duration: 0.6,
-            delay: 0.1 * index,
-            scrollTrigger: {
-              trigger: card,
-              start: 'top 80%',
-              end: 'top 20%',
-              scrub: 0.5
-            }
-          });
-
-          // Add parallax effect to cards
-          gsap.to(card, {
-            y: -20,
-            ease: 'none',
-            scrollTrigger: {
-              trigger: card,
-              start: 'top bottom',
-              end: 'bottom top',
-              scrub: 0.5
-            }
-          });
-        });
-      }
-    }
+    AOS.init({
+      duration: 800,
+      once: true,
+      easing: 'ease-in-out',
+    });
   }, []);
 
-  return (
-    <section 
-      ref={sectionRef}
-      className="py-20 bg-gradient-to-br from-white to-blue-50 dark:from-gray-800 dark:to-slate-900"
-      data-scroll
-      data-scroll-speed="1"
-      data-scroll-section
-    >
-      <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          <div>
-            <h2 
-              ref={titleRef}
-              className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6"
-            >
-              About ImportExport Pro
-            </h2>
-            <p 
-              ref={descriptionRef}
-              className="text-lg text-gray-600 dark:text-gray-400 mb-6 leading-relaxed"
-            >
-              With over two decades of experience in international trade, ImportExport Pro has 
-              established itself as a leading facilitator of global commerce. We specialize in 
-              bridging the gap between businesses and international markets through our 
-              comprehensive suite of import-export services.
-            </p>
-            <p className="text-lg text-gray-600 dark:text-gray-400 mb-8 leading-relaxed">
-              Our team of trade experts, customs specialists, and logistics professionals work 
-              tirelessly to ensure your goods move seamlessly across borders while maintaining 
-              full compliance with international regulations.
-            </p>
+  const stats = [
+    {
+      icon: Building2,
+      value: "15+",
+      label: "Years of Experience",
+      description: "Decades of expertise in global trade and logistics",
+      color: "from-blue-500 to-blue-600"
+    },
+    {
+      icon: Globe,
+      value: "500+",
+      label: "Global Partners",
+      description: "Trusted partnerships across continents",
+      color: "from-indigo-500 to-indigo-600"
+    },
+    {
+      icon: Award,
+      value: "1000+",
+      label: "Successful Projects",
+      description: "Delivered excellence in every shipment",
+      color: "from-violet-500 to-violet-600"
+    },
+    {
+      icon: Users,
+      value: "50+",
+      label: "Countries Served",
+      description: "Global reach with local expertise",
+      color: "from-purple-500 to-purple-600"
+    }
+  ];
 
-            <div 
-              ref={statsRef}
-              className="grid grid-cols-2 gap-6"
+  return (
+    <section className="py-16 sm:py-20 md:py-24 bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-slate-900">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-12 sm:mb-16 md:mb-20">
+          <div
+            data-aos="fade-up"
+            className="inline-flex items-center px-4 sm:px-6 py-2 sm:py-3 rounded-full bg-blue-500/10 text-blue-400 mb-4 sm:mb-6 text-sm sm:text-base"
+          >
+            <Package className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
+            <span className="font-medium">About us</span>
+          </div>
+          <h2 
+            data-aos="fade-up" 
+            data-aos-delay="100"
+            className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4 sm:mb-6"
+          >
+            About Om Enterprises
+          </h2>
+          <p 
+            data-aos="fade-up" 
+            data-aos-delay="200"
+            className="text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl sm:max-w-3xl mx-auto leading-relaxed"
+          >
+            Your trusted partner in global trade and logistics, delivering excellence across borders with precision and care
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-12 sm:mb-16 md:mb-20">
+          {stats.map((stat, index) => (
+            <div
+              key={stat.label}
+              data-aos="fade-up"
+              data-aos-delay={index * 100}
+              className="relative group"
             >
-              <motion.div 
-                className="text-center"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                data-scroll
-                data-scroll-speed="0.5"
-              >
-                <motion.div 
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  transition={{ type: "spring", stiffness: 200, delay: 0.5 }}
-                  className="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-2"
-                >
-                  20+
-                </motion.div>
-                <div className="text-gray-600 dark:text-gray-400">Years Experience</div>
-              </motion.div>
-              <motion.div 
-                className="text-center"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                data-scroll
-                data-scroll-speed="0.7"
-              >
-                <motion.div 
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  transition={{ type: "spring", stiffness: 200, delay: 0.7 }}
-                  className="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-2"
-                >
-                  10,000+
-                </motion.div>
-                <div className="text-gray-600 dark:text-gray-400">Successful Shipments</div>
-              </motion.div>
+              <Card className="bg-white dark:bg-gray-800 border-0 shadow-lg hover:shadow-xl transition-all duration-300 h-full transform hover:-translate-y-1">
+                <CardContent className="p-4 sm:p-6 text-center">
+                  <div className={`inline-flex items-center justify-center w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-gradient-to-r ${stat.color} mb-4 transition-transform duration-300 group-hover:scale-110`}>
+                    <stat.icon className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
+                  </div>
+                  <div className="text-3xl sm:text-4xl font-bold bg-gradient-to-r bg-clip-text text-transparent from-blue-600 to-indigo-600 mb-2">
+                    {stat.value}
+                  </div>
+                  <h3 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mb-2">
+                    {stat.label}
+                  </h3>
+                  <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400">
+                    {stat.description}
+                  </p>
+                </CardContent>
+              </Card>
             </div>
+          ))}
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
+          <div
+            data-aos="fade-right"
+            data-aos-delay="100"
+            className="group"
+          >
+            <Card className="bg-white dark:bg-gray-800 border-0 shadow-lg hover:shadow-xl transition-all duration-300 h-full transform hover:-translate-y-1">
+              <CardContent className="p-6 sm:p-8">
+                <div className="flex items-center mb-6">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-r from-blue-500 to-indigo-500 flex items-center justify-center mr-4 transition-transform duration-300 group-hover:scale-110">
+                    <Building2 className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+                  </div>
+                  <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">Our Mission</h3>
+                </div>
+                <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300 leading-relaxed mb-6">
+                  To provide innovative and reliable global trade solutions that empower businesses to expand their international reach while ensuring efficiency, security, and compliance.
+                </p>
+                <div className="flex items-center text-blue-600 dark:text-blue-400 font-medium group-hover:translate-x-2 transition-transform duration-300">
+                  <span>Learn more about our mission</span>
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </div>
+              </CardContent>
+            </Card>
           </div>
 
-          <div 
-            ref={cardsRef}
-            className="space-y-6"
+          <div
+            data-aos="fade-left"
+            data-aos-delay="200"
+            className="group"
           >
-            <motion.div
-              whileHover={{ scale: 1.02, y: -5 }}
-              data-scroll
-              data-scroll-speed="0.3"
-            >
-              <Card className="p-6 bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 border-0">
-                <CardContent className="p-0">
-                  <motion.h3 
-                    className="text-xl font-semibold text-gray-900 dark:text-white mb-3"
-                    whileHover={{ x: 5 }}
-                  >
-                    Our Mission
-                  </motion.h3>
-                  <p className="text-gray-600 dark:text-gray-400">
-                    To empower businesses of all sizes to participate in global trade by providing 
-                    expert guidance, cutting-edge technology, and reliable logistics solutions.
-                  </p>
-                </CardContent>
-              </Card>
-            </motion.div>
-
-            <motion.div
-              whileHover={{ scale: 1.02, y: -5 }}
-              data-scroll
-              data-scroll-speed="0.4"
-            >
-              <Card className="p-6 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 border-0">
-                <CardContent className="p-0">
-                  <motion.h3 
-                    className="text-xl font-semibold text-gray-900 dark:text-white mb-3"
-                    whileHover={{ x: 5 }}
-                  >
-                    Our Vision
-                  </motion.h3>
-                  <p className="text-gray-600 dark:text-gray-400">
-                    To be the world's most trusted partner in international trade, making global 
-                    commerce accessible, efficient, and transparent for businesses worldwide.
-                  </p>
-                </CardContent>
-              </Card>
-            </motion.div>
-
-            <motion.div
-              whileHover={{ scale: 1.02, y: -5 }}
-              data-scroll
-              data-scroll-speed="0.5"
-            >
-              <Card className="p-6 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 border-0">
-                <CardContent className="p-0">
-                  <motion.h3 
-                    className="text-xl font-semibold text-gray-900 dark:text-white mb-3"
-                    whileHover={{ x: 5 }}
-                  >
-                    Our Values
-                  </motion.h3>
-                  <p className="text-gray-600 dark:text-gray-400">
-                    Integrity, transparency, innovation, and customer success drive everything we do. 
-                    We believe in building long-term partnerships based on trust and mutual growth.
-                  </p>
-                </CardContent>
-              </Card>
-            </motion.div>
+            <Card className="bg-white dark:bg-gray-800 border-0 shadow-lg hover:shadow-xl transition-all duration-300 h-full transform hover:-translate-y-1">
+              <CardContent className="p-6 sm:p-8">
+                <div className="flex items-center mb-6">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 flex items-center justify-center mr-4 transition-transform duration-300 group-hover:scale-110">
+                    <Globe className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+                  </div>
+                  <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">Our Vision</h3>
+                </div>
+                <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300 leading-relaxed mb-6">
+                  To be the leading global trade solutions provider, recognized for our expertise, integrity, and commitment to customer success in international commerce.
+                </p>
+                <div className="flex items-center text-blue-600 dark:text-blue-400 font-medium group-hover:translate-x-2 transition-transform duration-300">
+                  <span>Discover our vision</span>
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </div>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </div>

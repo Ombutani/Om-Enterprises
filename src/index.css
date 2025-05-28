@@ -1,10 +1,10 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 @font-face {
   font-family: "font";
   src: url(../public/Satoshi-Variable.ttf);
+  font-display: swap;
 }
 body{
   font-family: "font";
@@ -93,15 +93,49 @@ body{
 @layer base {
   * {
     @apply border-border;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 80px;
+    -webkit-overflow-scrolling: touch;
+    height: 100%;
+    width: 100%;
   }
 
   body {
     @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    overscroll-behavior-y: none;
+    min-height: 100vh;
+    width: 100%;
+    position: relative;
+    overflow-x: hidden;
   }
 
-  html {
-    scroll-behavior: smooth;
+  /* Optimize animations */
+  .aos-animate {
+    will-change: transform, opacity;
+    backface-visibility: hidden;
+    transform: translateZ(0);
+    perspective: 1000px;
+  }
+
+  /* Reduce motion if user prefers it */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    .aos-animate {
+      transition: none !important;
+      animation: none !important;
+    }
   }
 }
 
@@ -140,22 +174,54 @@ body{
   @apply bg-gray-400 dark:bg-gray-500;
 }
 
-/* Loading animations */
-@keyframes shimmer {
-  0% {
-    background-position: -200px 0;
-  }
-  100% {
-    background-position: calc(200px + 100%) 0;
+/* Smooth scroll container */
+.smooth-scroll {
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
+  height: 100%;
+  width: 100%;
+  position: relative;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Optimize animations for better performance */
+@media (prefers-reduced-motion: no-preference) {
+  .smooth-scroll {
+    scroll-behavior: smooth;
   }
 }
 
-.shimmer {
-  animation: shimmer 2s infinite linear;
-  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-  background-size: 200px 100%;
+/* Performance optimizations */
+img, video, canvas {
+  max-width: 100%;
+  height: auto;
+  display: block;
 }
 
-.dark .shimmer {
-  background: linear-gradient(90deg, #374151 25%, #4b5563 50%, #374151 75%);
+/* Prevent layout shifts */
+.content-visibility {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 500px;
+}
+
+/* Optimize paint operations */
+.optimize-paint {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+  will-change: transform;
+}
+
+/* Loading state */
+.loading {
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.loaded {
+  opacity: 1;
 }

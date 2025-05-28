@@ -1,3 +1,4 @@
+import React from 'react';
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -9,48 +10,54 @@ import NotFound from "@/pages/NotFound";
 import About from "@/pages/About";
 import Services from "@/pages/Services";
 import Products from "@/pages/Products";
-import Tracking from "@/pages/Tracking";
+
 import Contact from "@/pages/Contact";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
-import { useSmoothScroll } from "./hooks/useSmoothScroll";
+// Remove useSmoothScroll import
+// import { useSmoothScroll } from "./hooks/useSmoothScroll";
 import Loader from "./components/Loader";
 import "./App.css";
+import { OrderProvider } from './contexts/OrderContext';
+import OrderPage from './pages/OrderPage';
+import Layout from './components/Layout';
 
 gsap.registerPlugin(ScrollTrigger);
 const queryClient = new QueryClient();
 
-const App = () => {
-  const scrollRef = useSmoothScroll();
+const App: React.FC = () => {
+  // Remove useSmoothScroll hook
+  // const scrollRef = useSmoothScroll();
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <AuthProvider>
-          <Loader />
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
-            <div ref={scrollRef} className="smooth-scroll">
-              <div data-scroll-content>
+    <Layout>
+      <QueryClientProvider client={queryClient}>
+        <TooltipProvider>
+          <AuthProvider>
+            <OrderProvider>
+              <Loader />
+              <Toaster />
+              <Sonner />
+              <BrowserRouter>
+                {/* Remove smooth-scroll and data-scroll-content wrappers */}
                 <Routes>
                   {/* Public Routes */}
                   <Route path="/" element={<Index />} />
                   <Route path="/about" element={<About />} />
                   <Route path="/services" element={<Services />} />
                   <Route path="/products" element={<Products />} />
-                  <Route path="/tracking" element={<Tracking />} />
+                  <Route path="/order" element={<OrderPage />} />
                   <Route path="/contact" element={<Contact />} />
                   
                   {/* Catch all route */}
                   <Route path="*" element={<NotFound />} />
                 </Routes>
-              </div>
-            </div>
-          </BrowserRouter>
-        </AuthProvider>
-      </TooltipProvider>
-    </QueryClientProvider>
+              </BrowserRouter>
+            </OrderProvider>
+          </AuthProvider>
+        </TooltipProvider>
+      </QueryClientProvider>
+    </Layout>
   );
 };
 

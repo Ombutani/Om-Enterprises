@@ -28,9 +28,9 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, mode }) => {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-md rounded-xl shadow-2xl p-0 bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800">
+      <DialogContent className="sm:max-w-md rounded-xl shadow-2xl p-0 bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 p-4">
         <DialogHeader>
-          <DialogTitle className="text-center text-2xl font-bold gradient-text mb-2">
+          <DialogTitle className="text-center text-3xl font-bold gradient-text mb-2 pt-8">
             {currentMode === 'login' ? 'Welcome Back!' : 'Create Your Account'}
           </DialogTitle>
         </DialogHeader>
