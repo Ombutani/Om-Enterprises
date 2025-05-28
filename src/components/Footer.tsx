@@ -59,7 +59,7 @@ const Footer: React.FC = () => {
           <div className="lg:col-span-1">
             <div className="flex items-center space-x-2 mb-6">
               <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-cyan-500 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-xl">IE</span>
+                <span className="text-white font-bold text-xl">OE</span>
               </div>
               <div>
                 <h1 className="text-xl font-bold bg-gradient-to-r from-blue-500 to-indigo-500 bg-clip-text text-transparent hover:scale-105 transition-transform duration-300">
@@ -73,7 +73,7 @@ const Footer: React.FC = () => {
                 </p>
               </div>
             </div>
-            <p className="text-gray-400 mb-6 leading-relaxed">
+            <p className="text-gray-400 text-left mb-6 leading-relaxed">
               Your trusted partner in international trade. We make global commerce accessible, 
               efficient, and transparent for businesses worldwide.
             </p>
@@ -99,13 +99,13 @@ const Footer: React.FC = () => {
           {/* Footer Links */}
           {footerSections.map((section, index) => (
             <div key={index}>
-              <h4 className="text-lg font-semibold mb-4">{section.title}</h4>
+              <h4 className="text-lg font-semibold mb-4 text-left">{section.title}</h4>
               <ul className="space-y-3">
                 {section.links.map((link, linkIndex) => (
                   <li key={linkIndex}>
                     <a 
                       href="#" 
-                      className="text-gray-400 hover:text-white transition-colors duration-200 hover:translate-x-1 transform"
+                      className="text-gray-400 hover:text-white transition-colors duration-200 hover:translate-x-1 transform text-left block"
                     >
                       {link}
                     </a>
@@ -117,26 +117,26 @@ const Footer: React.FC = () => {
         </div>
 
         <div className="border-t border-gray-800 mt-12 pt-8">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <p className="text-gray-400 text-sm">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
+            <p className="text-gray-400 text-sm text-left w-full md:w-auto">
               © {currentYear} Om Enterprises. All rights reserved.
             </p>
-            <div className="flex space-x-6 mt-4 md:mt-0">
+            <div className="flex flex-col md:flex-row md:space-x-6 mt-4 md:mt-0 w-full md:w-auto">
               <a 
                 href="#" 
-                className="text-gray-400 hover:text-white text-sm transition-colors hover:translate-x-1 transform"
+                className="text-gray-400 hover:text-white text-sm transition-colors hover:translate-x-1 transform text-left mb-2 md:mb-0"
               >
                 Privacy Policy
               </a>
               <a 
                 href="#" 
-                className="text-gray-400 hover:text-white text-sm transition-colors hover:translate-x-1 transform"
+                className="text-gray-400 hover:text-white text-sm transition-colors hover:translate-x-1 transform text-left mb-2 md:mb-0"
               >
                 Terms of Service
               </a>
               <a 
                 href="#" 
-                className="text-gray-400 hover:text-white text-sm transition-colors hover:translate-x-1 transform"
+                className="text-gray-400 hover:text-white text-sm transition-colors hover:translate-x-1 transform text-left"
               >
                 Cookie Policy
               </a>

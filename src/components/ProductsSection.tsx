@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -10,10 +10,9 @@ const ProductsSection: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 6;
   const sectionRef = useRef<HTMLElement>(null);
-  const titleRef = useRef<HTMLHeadingElement>(null);
-  const descriptionRef = useRef<HTMLParagraphElement>(null);
-  const cardsRef = useRef<HTMLDivElement>(null);
-  
+
+  // ... products array and categories array remain unchanged ...
+
   const products = [
     {
       id: 1,
@@ -617,20 +616,16 @@ const ProductsSection: React.FC = () => {
     }
   ];
 
+
   const categories = ["All", "Manufacturing", "Technology", "Automotive", "Healthcare", "Agriculture", "Chemicals"];
 
-  const filteredProducts = activeCategory === "All" 
-    ? products 
+  const filteredProducts = activeCategory === "All"
+    ? products
     : products.filter(product => product.category === activeCategory);
 
-  const displayedProducts = showAllProducts 
-    ? filteredProducts 
+  const displayedProducts = showAllProducts
+    ? filteredProducts
     : filteredProducts.slice(0, currentPage * productsPerPage);
-
-  const handleViewAllProducts = () => {
-    setShowAllProducts(true);
-    sectionRef.current?.scrollIntoView({ behavior: 'smooth' });
-  };
 
   const handleLoadMore = () => {
     setCurrentPage(prev => prev + 1);
@@ -639,37 +634,41 @@ const ProductsSection: React.FC = () => {
   const hasMoreProducts = !showAllProducts && displayedProducts.length < filteredProducts.length;
 
   return (
-    <section ref={sectionRef} className="py-20 bg-gradient-to-br from-slate-50 to-blue-50 dark:from-gray-900 dark:to-slate-900">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
-          <div 
+    <section
+      ref={sectionRef}
+      className="py-12 sm:py-16 md:py-20 bg-gradient-to-br from-slate-50 to-blue-50 dark:from-gray-900 dark:to-slate-900"
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Header */}
+        <div className="text-center mb-10 sm:mb-14 md:mb-16">
+          <div
             data-aos="fade-up"
-            className="inline-flex items-center px-6 py-3 rounded-full bg-blue-500/10 text-blue-400 mb-6"
+            className="inline-flex items-center px-4 sm:px-6 py-2.5 sm:py-3 rounded-full bg-blue-500/10 text-blue-400 mb-4 sm:mb-6 text-sm sm:text-base"
           >
             <Package className="w-5 h-5 mr-2" />
             <span className="font-medium">Our Products</span>
           </div>
-          <h2 
+          <h2
             data-aos="fade-up"
             data-aos-delay="100"
-            className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6"
+            className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-6"
           >
             Premium Quality Products
           </h2>
-          <p 
+          <p
             data-aos="fade-up"
             data-aos-delay="200"
-            className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto"
+            className="text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl sm:max-w-3xl mx-auto leading-relaxed"
           >
             Discover our extensive range of high-quality products sourced globally and delivered with excellence.
           </p>
         </div>
 
         {/* Category Filter */}
-        <div 
+        <div
           data-aos="fade-up"
           data-aos-delay="300"
-          className="flex flex-wrap justify-center gap-3 mb-12"
+          className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-8 sm:mb-12"
         >
           {categories.map((category, index) => (
             <div
@@ -680,10 +679,10 @@ const ProductsSection: React.FC = () => {
               <Button
                 variant={category === activeCategory ? "default" : "outline"}
                 className={`${
-                  category === activeCategory 
-                  ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-500/30" 
-                  : "bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:border-blue-500 hover:bg-blue-50 dark:hover:bg-gray-700 transition-all duration-300"
-                } rounded-full px-6 py-2 font-medium`}
+                  category === activeCategory
+                    ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-500/30"
+                    : "bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:border-blue-500 hover:bg-blue-50 dark:hover:bg-gray-700 transition-all duration-300"
+                } rounded-full px-4 sm:px-6 py-1.5 sm:py-2 text-sm sm:text-base font-medium`}
                 onClick={() => {
                   setActiveCategory(category);
                   setShowAllProducts(false);
@@ -697,10 +696,18 @@ const ProductsSection: React.FC = () => {
         </div>
 
         {/* Products Grid */}
-        <div 
+        <div
           data-aos="fade-up"
           data-aos-delay="400"
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          className="
+            grid
+            grid-cols-1
+            xs:grid-cols-2
+            md:grid-cols-2
+            lg:grid-cols-3
+            gap-6
+            sm:gap-8
+          "
         >
           {displayedProducts.map((product, index) => {
             const IconComponent = product.icon;
@@ -709,53 +716,53 @@ const ProductsSection: React.FC = () => {
                 key={product.id}
                 data-aos="fade-up"
                 data-aos-delay={400 + index * 50}
-                className="product-card h-full"
+                className="product-card h-full flex"
               >
-                <Card className="h-full flex flex-col bg-white dark:bg-gray-800 border-0 shadow-lg overflow-hidden group">
-                  <div className="relative overflow-hidden h-48">
-                    <img 
-                      src={product.image} 
+                <Card className="h-full flex flex-col bg-white dark:bg-gray-800 border-0 shadow-lg overflow-hidden group w-full">
+                  <div className="relative overflow-hidden h-40 xs:h-44 sm:h-48 md:h-52 lg:h-48">
+                    <img
+                      src={product.image}
                       alt={product.name}
                       className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                     />
-                    <div className="absolute top-4 left-4">
-                      <Badge className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white">
+                    <div className="absolute top-2 left-2 sm:top-4 sm:left-4">
+                      <Badge className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-xs sm:text-sm">
                         {product.category}
                       </Badge>
                     </div>
-                    <div className="absolute top-4 right-4 w-10 h-10 bg-white/90 rounded-full flex items-center justify-center">
-                      <IconComponent className="w-5 h-5 text-blue-600" />
+                    <div className="absolute top-2 right-2 sm:top-4 sm:right-4 w-8 h-8 sm:w-10 sm:h-10 bg-white/90 rounded-full flex items-center justify-center">
+                      <IconComponent className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600" />
                     </div>
                   </div>
-                  <CardHeader className="flex-none">
-                    <div className="flex justify-between items-start">
-                      <CardTitle className="text-xl font-bold text-gray-900 dark:text-white line-clamp-2">
+                  <CardHeader className="flex-none px-4 py-3 sm:px-6 sm:py-4">
+                    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2">
+                      <CardTitle className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white line-clamp-2">
                         {product.name}
                       </CardTitle>
-                      <div className="text-lg font-semibold text-blue-600 dark:text-blue-400 ml-2 flex-shrink-0">
+                      <div className="text-base sm:text-lg font-semibold text-blue-600 dark:text-blue-400 flex-shrink-0">
                         {product.price}
                       </div>
                     </div>
-                    <CardDescription className="text-gray-600 dark:text-gray-300 line-clamp-2 mt-2">
+                    <CardDescription className="text-gray-600 dark:text-gray-300 line-clamp-2 mt-1 sm:mt-2 text-sm sm:text-base">
                       {product.description}
                     </CardDescription>
                   </CardHeader>
-                  <CardContent className="flex-grow flex flex-col">
-                    <div className="flex flex-wrap gap-2 mb-4">
+                  <CardContent className="flex-grow flex flex-col px-4 pb-4 sm:px-6 sm:pb-6">
+                    <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-3 sm:mb-4">
                       {product.features.map((feature, featureIndex) => (
-                        <div 
+                        <div
                           key={featureIndex}
                           data-aos="fade-up"
                           data-aos-delay={400 + index * 50 + featureIndex * 50}
                         >
-                          <Badge variant="secondary" className="text-xs">
+                          <Badge variant="secondary" className="text-[10px] sm:text-xs">
                             {feature}
                           </Badge>
                         </div>
                       ))}
                     </div>
                     <div className="mt-auto">
-                      <Button className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white transition-transform duration-300 hover:scale-105">
+                      <Button className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white transition-transform duration-300 hover:scale-105 text-sm sm:text-base py-2 sm:py-2.5">
                         Request Quote
                       </Button>
                     </div>
@@ -767,15 +774,15 @@ const ProductsSection: React.FC = () => {
         </div>
 
         {/* Load More / View All Button */}
-        <div 
+        <div
           data-aos="fade-up"
           data-aos-delay="500"
-          className="text-center mt-12"
+          className="text-center mt-8 sm:mt-12"
         >
           {!showAllProducts && hasMoreProducts && (
-            <Button 
-              size="lg" 
-              className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-8 transition-transform duration-300 hover:scale-105"
+            <Button
+              size="lg"
+              className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-6 sm:px-8 py-2.5 sm:py-3 text-base sm:text-lg transition-transform duration-300 hover:scale-105"
               onClick={handleLoadMore}
             >
               Load More Products

@@ -1,6 +1,7 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import { Card, CardContent } from '@/components/ui/card';
-import { Star } from 'lucide-react';
+import { Package, Star } from 'lucide-react';
 
 const TestimonialsSection: React.FC = () => {
   const testimonials = [
@@ -54,80 +55,84 @@ const TestimonialsSection: React.FC = () => {
     }
   ];
 
-  return (
-    <section className="py-20 bg-gray-50 dark:bg-gray-900">
-      <div className="container mx-auto px-4 relative z-10">
-        <div className="text-center mb-16">
-          <div 
-            data-aos="fade-up"
-            className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full text-white text-sm font-medium mb-6 shadow-lg"
-          >
-            <Star className="w-5 h-5 mr-2" />
-            Client Success Stories
-          </div>
-          <h2 
-            data-aos="fade-up"
-            data-aos-delay="100"
-            className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6"
-          >
-            Trusted by Industry Leaders
-          </h2>
-          <p 
-            data-aos="fade-up"
-            data-aos-delay="200"
-            className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto"
-          >
-            Discover why leading companies choose us for their global trade solutions
-          </p>
-        </div>
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1
+      }
+    }
+  };
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.6
+      }
+    }
+  };
+
+  return (
+    <section className="py-16 sm:py-20 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div
+            data-aos="zoom-in"
+            className="inline-flex items-center px-3 sm:px-5 py-2 sm:py-3 rounded-full bg-blue-500/10 text-blue-400 mb-3 sm:mb-5 text-sm sm:text-base"
+          >
+            <Package className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
+            <span className="font-medium">Our clients</span>
+          </div>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-12 sm:mb-16"
+        >
+          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">What Our Clients Say</h2>
+          <p className="text-gray-400 text-lg max-w-2xl mx-auto">
+            Trusted by businesses worldwide for our quality service and expertise
+          </p>
+        </motion.div>
+
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8"
+        >
           {testimonials.map((testimonial, index) => (
-            <div
-              key={index}
-              data-aos="fade-up"
-              data-aos-delay={300 + index * 100}
+            <motion.div
+              key={testimonial.name}
+              variants={itemVariants}
+              className="p-6 rounded-xl bg-gray-800/50 border border-gray-700/50"
             >
-              <Card className="bg-white dark:bg-gray-800 border-0 shadow-lg hover:shadow-xl transition-shadow duration-300">
-                <CardContent className="p-6">
-                  <div 
-                    data-aos="zoom-in"
-                    data-aos-delay={300 + index * 100 + 100}
-                    className="flex items-center mb-4"
-                  >
-                    <div className="w-12 h-12 rounded-full overflow-hidden mr-4">
-                      <img 
-                        src={testimonial.image} 
-                        alt={testimonial.name} 
-                        className="w-full h-full object-cover transition-transform duration-300 hover:scale-110" 
-                      />
-                    </div>
-                    <div>
-                      <h3 className="font-semibold text-gray-900 dark:text-white">{testimonial.name}</h3>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">{testimonial.position}</p>
-                    </div>
-                  </div>
-                  <p 
-                    data-aos="fade-up"
-                    data-aos-delay={300 + index * 100 + 200}
-                    className="text-gray-600 dark:text-gray-300"
-                  >
-                    {testimonial.text}
-                  </p>
-                  <div 
-                    data-aos="fade-up"
-                    data-aos-delay={300 + index * 100 + 300}
-                    className="flex mt-4"
-                  >
-                    {[...Array(testimonial.rating)].map((_, i) => (
-                      <Star key={i} className="w-4 h-4 text-yellow-400" />
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
+              <div className="flex items-center gap-4 mb-4">
+                <div className="w-12 h-12 rounded-full overflow-hidden">
+                  <img
+                    src={testimonial.image}
+                    alt={testimonial.name}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold text-white">{testimonial.name}</h3>
+                  <p className="text-sm text-gray-400">{testimonial.position}</p>
+                </div>
+              </div>
+              <div className="flex gap-1 mb-4">
+                {[...Array(testimonial.rating)].map((_, i) => (
+                  <Star key={i} className="w-4 h-4 text-yellow-400 fill-current" />
+                ))}
+              </div>
+              <p className="text-gray-300">{testimonial.text}</p>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );
