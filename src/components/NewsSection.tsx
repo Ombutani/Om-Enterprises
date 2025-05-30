@@ -1,11 +1,33 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Calendar, ArrowRight, Newspaper } from 'lucide-react';
+import { Calendar, ArrowRight, Newspaper, X } from 'lucide-react';
+
+// Simple Dialog implementation
+const Dialog = ({ open, onClose, children }: { open: boolean; onClose: () => void; children: React.ReactNode }) => {
+  if (!open) return null;
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+      <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-2xl max-w-4xl w-full mx-4 relative animate-fadeIn">
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 text-gray-500 hover:text-blue-600 text-2xl font-bold focus:outline-none"
+          aria-label="Close"
+        >
+          ×
+        </button>
+        {children}
+      </div>
+    </div>
+  );
+};
 
 const NewsSection: React.FC = () => {
+  const [visibleItems, setVisibleItems] = useState(5);
+  const [selectedArticle, setSelectedArticle] = useState<typeof news[0] | null>(null);
+
   const news = [
     {
       id: 1,
@@ -42,6 +64,33 @@ const NewsSection: React.FC = () => {
       category: "Business",
       image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&h=250&fit=crop",
       readTime: "6 min read"
+    },
+    {
+      id: 5,
+      title: "New Shipping Routes Announced for 2024",
+      excerpt: "Expansion of our global network with new routes connecting emerging markets.",
+      date: "2023-12-28",
+      category: "Logistics",
+      image: "https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?w=400&h=250&fit=crop",
+      readTime: "4 min read"
+    },
+    {
+      id: 6,
+      title: "Customer Service Excellence Award 2023",
+      excerpt: "Recognized for outstanding customer support and satisfaction in the logistics industry.",
+      date: "2023-12-25",
+      category: "Awards",
+      image: "https://images.unsplash.com/photo-1552581234-26160f608093?w=400&h=250&fit=crop",
+      readTime: "3 min read"
+    },
+    {
+      id: 7,
+      title: "New Warehouse Facilities in Europe",
+      excerpt: "Strategic expansion of storage capabilities to better serve European markets.",
+      date: "2023-12-20",
+      category: "Expansion",
+      image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=400&h=250&fit=crop",
+      readTime: "5 min read"
     }
   ];
 
@@ -108,7 +157,7 @@ const NewsSection: React.FC = () => {
           viewport={{ once: true, margin: "-100px" }}
           className="grid grid-cols-1 md:grid-cols-2 gap-8"
         >
-          {news.map((article, index) => (
+          {news.slice(0, visibleItems).map((article, index) => (
             <motion.div
               key={article.id}
               className="h-full"
@@ -157,6 +206,7 @@ const NewsSection: React.FC = () => {
                   <Button
                     variant="ghost"
                     className={`group/btn p-0 h-auto text-blue-600 hover:text-blue-700 w-fit ${index === 0 ? 'text-lg' : ''}`}
+                    onClick={() => setSelectedArticle(article)}
                   >
                     Read More
                     <ArrowRight className={`ml-2 group-hover/btn:translate-x-1 transition-transform ${index === 0 ? 'w-5 h-5' : 'w-4 h-4'}`} />
@@ -173,11 +223,60 @@ const NewsSection: React.FC = () => {
           transition={{ duration: 0.6 }}
           className="text-center mt-12"
         >
-          <Button size="lg" className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-8 transition-transform duration-300 hover:scale-105">
-            View All News
-          </Button>
+          {visibleItems < news.length && (
+            <Button 
+              size="lg" 
+              className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-8 transition-transform duration-300 hover:scale-105"
+              onClick={() => setVisibleItems(prev => prev + 5)}
+            >
+              View More News
+            </Button>
+          )}
         </motion.div>
       </div>
+
+      <Dialog open={!!selectedArticle} onClose={() => setSelectedArticle(null)}>
+        {selectedArticle && (
+          <div className="p-6 sm:p-10">
+            <div className="flex flex-col gap-6">
+              <div className="relative w-full h-[300px] rounded-xl overflow-hidden shadow-lg">
+                <img
+                  src={selectedArticle.image}
+                  alt={selectedArticle.title}
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute top-4 left-4">
+                  <Badge className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg">
+                    {selectedArticle.category}
+                  </Badge>
+                </div>
+              </div>
+              <div className="flex flex-col">
+                <h3 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-2">
+                  {selectedArticle.title}
+                </h3>
+                <div className="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-4">
+                  <Calendar className="w-4 h-4 mr-2 text-blue-500" />
+                  {formatDate(selectedArticle.date)}
+                  <span className="mx-2 text-gray-300 dark:text-gray-600">•</span>
+                  <span className="text-blue-500">{selectedArticle.readTime}</span>
+                </div>
+                <div className="space-y-4">
+                  <p className="text-gray-600 dark:text-gray-300 text-lg leading-relaxed">
+                    {selectedArticle.excerpt}
+                  </p>
+                  <p className="text-gray-600 dark:text-gray-300 text-lg leading-relaxed">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                  </p>
+                  <p className="text-gray-600 dark:text-gray-300 text-lg leading-relaxed">
+                    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+      </Dialog>
     </section>
   );
 };
