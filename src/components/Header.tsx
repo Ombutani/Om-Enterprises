@@ -31,9 +31,9 @@ const Header: React.FC = () => {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-b border-gray-200 dark:border-gray-700 shadow-lg">
-        <div className="container mx-auto px-4 py-2 sm:py-3 md:py-4">
-          <div className="flex items-center justify-between">
+      <header className="fixed top-0 left-0 right-0 z-50 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-2 sm:space-x-3">
               <Link to="/" className="flex-shrink-0">
                 <div className="relative w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-lg sm:rounded-xl flex items-center justify-center shadow-lg overflow-hidden transition-transform duration-300 hover:scale-105">
@@ -44,10 +44,10 @@ const Header: React.FC = () => {
               </Link>
               <div className="flex-shrink-0">
                 <Link to="/" className="block">
-                  <h1 className="text-base sm:text-lg md:text-xl font-bold bg-gradient-to-r from-blue-500 to-indigo-500 bg-clip-text text-transparent whitespace-nowrap">
+                  <h1 className="text-left sm:text-lg md:text-lg font-bold bg-gradient-to-r from-blue-600 to-indigo-400 bg-clip-text text-transparent whitespace-nowrap">
                     Om Enterprises
                   </h1>
-                  <p className="text-[10px] sm:text-xs md:text-sm text-gray-600 dark:text-gray-400 flex items-center whitespace-nowrap">
+                  <p className="text-[10px] sm:text-xs md:text-xs text-gray-600 dark:text-gray-400 flex items-center whitespace-nowrap">
                     Global Trade Solutions
                     <ArrowRight className="w-2 h-2 sm:w-3 sm:h-3 md:w-4 md:h-4 ml-1" />
                   </p>
@@ -56,7 +56,7 @@ const Header: React.FC = () => {
             </div>
 
             {/* Desktop Navigation */}
-            <nav className="hidden md:flex items-center space-x-6 lg:space-x-8">
+            <nav className="hidden md:flex space-x-8">
               {navItems.map((item) => (
                 <Link
                   key={item.id}
@@ -75,7 +75,7 @@ const Header: React.FC = () => {
               ))}
             </nav>
 
-            <div className="flex items-center space-x-2 sm:space-x-3 md:space-x-4">
+            <div className="flex items-center space-x-4">
               <ThemeToggle />
               
               {loading ? (

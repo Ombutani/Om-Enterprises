@@ -117,7 +117,11 @@ const ServicesSection: React.FC = () => {
               variants={cardVariants}
               className="relative group"
             >
-              <Card className="bg-white dark:bg-gray-800 border-0 shadow-lg hover:shadow-xl transition-all duration-300 h-full transform hover:-translate-y-1">
+              {/* 
+                Add border-black in light mode, border-0 in dark mode.
+                Tailwind: border border-black dark:border-0
+              */}
+              <Card className="bg-white dark:bg-gray-800 border border-black dark:border-0 shadow-lg hover:shadow-xl transition-all duration-300 h-full transform hover:-translate-y-1">
                 <CardHeader className="text-center pb-2 sm:pb-4">
                   <motion.div
                     whileHover={{ scale: 1.12, rotate: -4 }}

@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import SmoothScroll from '@/components/SmoothScroll';
 import { Toaster } from 'sonner';
+import { ThemeProvider } from '@/components/ThemeProvider';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -17,7 +18,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="has-scroll-smooth">
+    <html lang="en" className="has-scroll-smooth" suppressHydrationWarning>
       <head>
         <style>{`
           html.has-scroll-smooth {
@@ -105,9 +106,11 @@ export default function RootLayout({
         `}</style>
       </head>
       <body className={inter.className}>
-        <SmoothScroll>
-          {children}
-        </SmoothScroll>
+        <ThemeProvider>
+          <SmoothScroll>
+            {children}
+          </SmoothScroll>
+        </ThemeProvider>
         <Toaster position="top-right" richColors />
       </body>
     </html>

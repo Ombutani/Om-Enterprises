@@ -1,35 +1,23 @@
-
-import React, { useState, useEffect } from 'react';
+import { Moon, Sun } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Settings } from 'lucide-react';
+import { useTheme } from './ThemeProvider';
 
-export const ThemeToggle: React.FC = () => {
-  const [theme, setTheme] = useState<'light' | 'dark'>('light');
-
-  useEffect(() => {
-    const savedTheme = localStorage.getItem('theme') as 'light' | 'dark' | null;
-    const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    const initialTheme = savedTheme || systemTheme;
-    
-    setTheme(initialTheme);
-    document.documentElement.classList.toggle('dark', initialTheme === 'dark');
-  }, []);
-
-  const toggleTheme = () => {
-    const newTheme = theme === 'light' ? 'dark' : 'light';
-    setTheme(newTheme);
-    localStorage.setItem('theme', newTheme);
-    document.documentElement.classList.toggle('dark', newTheme === 'dark');
-  };
+export function ThemeToggle() {
+  const { theme, toggleTheme } = useTheme();
 
   return (
     <Button
-      variant="outline"
-      size="sm"
+      variant="ghost"
+      size="icon"
       onClick={toggleTheme}
-      className="w-9 h-9 p-0"
+      className="rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+      aria-label="Toggle theme"
     >
-      <Settings className={`h-4 w-4 transition-transform duration-300 ${theme === 'dark' ? 'rotate-180' : ''}`} />
+      {theme === 'light' ? (
+        <Moon className="h-5 w-5 text-gray-700 dark:text-gray-300" />
+      ) : (
+        <Sun className="h-5 w-5 text-gray-700 dark:text-gray-300" />
+      )}
     </Button>
   );
-};
+}

@@ -6,7 +6,6 @@ import { Package, Truck, Factory, Zap, Globe, Shield } from 'lucide-react';
 
 const ProductsSection: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState("All");
-  const [showAllProducts, setShowAllProducts] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 6;
   const sectionRef = useRef<HTMLElement>(null);
@@ -622,14 +621,15 @@ const ProductsSection: React.FC = () => {
     ? products
     : products.filter(product => product.category === activeCategory);
 
-  // Always show all products, regardless of pagination or showAllProducts state
-  const displayedProducts = filteredProducts;
+  // Calculate products to display based on current page
+  const displayedProducts = filteredProducts.slice(0, currentPage * productsPerPage);
 
   const handleLoadMore = () => {
     setCurrentPage(prev => prev + 1);
   };
 
-  // No more "hasMoreProducts" logic needed since all products are always shown
+  // Check if there are more products to load
+  const hasMoreProducts = displayedProducts.length < filteredProducts.length;
 
   return (
     <section
@@ -683,7 +683,6 @@ const ProductsSection: React.FC = () => {
                 } rounded-full px-4 sm:px-6 py-1.5 sm:py-2 text-sm sm:text-base font-medium`}
                 onClick={() => {
                   setActiveCategory(category);
-                  setShowAllProducts(false);
                   setCurrentPage(1);
                 }}
               >
@@ -780,8 +779,17 @@ const ProductsSection: React.FC = () => {
           })}
         </div>
 
-        {/* Load More / View All Button */}
-        {/* Removed Load More button since all products are always shown */}
+        {/* Load More Button */}
+        {hasMoreProducts && (
+          <div className="mt-10 text-center" data-aos="fade-up">
+            <Button
+              onClick={handleLoadMore}
+              className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold px-8 py-3 rounded-lg shadow-lg hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 hover:scale-105"
+            >
+              View More Products
+            </Button>
+          </div>
+        )}
       </div>
     </section>
   );

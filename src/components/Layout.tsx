@@ -1,10 +1,27 @@
 import React, { useEffect } from 'react';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { TooltipProvider } from '@radix-ui/react-tooltip';
+import { AuthProvider } from '@/contexts/AuthContext';
+import { OrderProvider } from '@/contexts/OrderContext';
+import { ThemeProvider } from '@/components/ThemeProvider';
+import { Toaster } from 'sonner';
 
 interface LayoutProps {
   children: React.ReactNode;
 }
+
+// Create a client
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      retry: 1,
+      staleTime: 5 * 60 * 1000, // 5 minutes
+    },
+  },
+});
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   useEffect(() => {
@@ -29,7 +46,20 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     };
   }, []);
 
-  return <>{children}</>;
+  return (
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <AuthProvider>
+          <OrderProvider>
+            <ThemeProvider>
+              {children}
+              <Toaster position="top-right" richColors />
+            </ThemeProvider>
+          </OrderProvider>
+        </AuthProvider>
+      </TooltipProvider>
+    </QueryClientProvider>
+  );
 };
 
 export default Layout; 

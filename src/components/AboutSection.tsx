@@ -183,13 +183,13 @@ const AboutSection: React.FC = () => {
               custom={i}
               className="group"
             >
-              <Card className="bg-white dark:bg-gray-800 border-0 shadow-lg hover:shadow-xl transition-all duration-300 h-full transform hover:-translate-y-1">
+              <Card className="bg-white  dark:bg-gray-800 border-0 shadow-lg hover:shadow-xl transition-all duration-300 h-full transform hover:-translate-y-1">
                 <CardContent className="p-5 sm:p-8">
                   <div className="flex items-center mb-5 sm:mb-6">
-                    <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-r ${item.gradient} flex items-center justify-center mr-3 sm:mr-4 transition-transform duration-300 group-hover:scale-110`}>
+                    <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full  bg-gradient-to-r  ${item.gradient} flex items-center justify-center mr-3 sm:mr-4 transition-transform duration-300 group-hover:scale-110`}>
                       <item.icon className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                     </div>
-                    <h3 className="text-lg sm:text-2xl font-bold text-gray-900 dark:text-white">{item.title}</h3>
+                    <h3 className="text-lg sm:text-2xl font-bold text-gray-900 dark:text-white text-center ">{item.title}</h3>
                   </div>
                   <p className="text-sm sm:text-lg text-gray-600 dark:text-gray-300 leading-relaxed mb-5 sm:mb-6">
                     {item.desc}
