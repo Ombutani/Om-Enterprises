@@ -7,7 +7,9 @@ import { toast } from '@/hooks/use-toast';
 import { Mail, Phone, Contact, Package } from 'lucide-react';
 import { motion } from 'framer-motion';
 import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+// Replace with your Formspree endpoint
+const FORMSPREE_ENDPOINT = "https://formspree.io/f/movdzglj"; // <-- Replace with your Formspree form ID
 
 const ContactSection: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -101,28 +103,47 @@ const ContactSection: React.FC = () => {
     }));
   };
 
+  // Updated handleSubmit to POST to Formspree
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
 
     try {
-      // Simulate form submission
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      toast({
-        title: "Message Sent Successfully!",
-        description: "Thank you for your inquiry. We'll get back to you within 24 hours.",
+      const response = await fetch(FORMSPREE_ENDPOINT, {
+        method: "POST",
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(formData)
       });
 
-      // Reset form
-      setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        company: '',
-        service: '',
-        message: ''
-      });
+      if (response.ok) {
+        toast({
+          title: "Message Sent Successfully!",
+          description: "Thank you for your inquiry. We'll get back to you within 24 hours.",
+        });
+
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          company: '',
+          service: '',
+          message: ''
+        });
+      } else {
+        const data = await response.json();
+        let errorMsg = "Failed to send message. Please try again.";
+        if (data && data.errors && data.errors.length > 0) {
+          errorMsg = data.errors.map((err: any) => err.message).join(" ");
+        }
+        toast({
+          title: "Error",
+          description: errorMsg,
+          variant: "destructive",
+        });
+      }
     } catch (error) {
       toast({
         title: "Error",
@@ -248,6 +269,7 @@ const ContactSection: React.FC = () => {
                   ref={formRef}
                   onSubmit={handleSubmit} 
                   className="space-y-3 xs:space-y-4 sm:space-y-6"
+                  autoComplete="off"
                 >
                   <div className="grid grid-cols-1 xs:grid-cols-1 sm:grid-cols-2 gap-3 xs:gap-4 sm:gap-6">
                     <motion.div
@@ -266,6 +288,7 @@ const ContactSection: React.FC = () => {
                         onChange={handleInputChange}
                         placeholder="Your full name"
                         className="w-full transition-all duration-300 focus:ring-2 focus:ring-blue-500 text-xs xs:text-sm sm:text-base"
+                        autoComplete="off"
                       />
                     </motion.div>
                     <motion.div
@@ -284,6 +307,7 @@ const ContactSection: React.FC = () => {
                         onChange={handleInputChange}
                         placeholder="your.email@company.com"
                         className="w-full transition-all duration-300 focus:ring-2 focus:ring-blue-500 text-xs xs:text-sm sm:text-base"
+                        autoComplete="off"
                       />
                     </motion.div>
                   </div>
@@ -304,6 +328,7 @@ const ContactSection: React.FC = () => {
                         onChange={handleInputChange}
                         placeholder="+1 (555) 123-4567"
                         className="w-full transition-all duration-300 focus:ring-2 focus:ring-blue-500 text-xs xs:text-sm sm:text-base"
+                        autoComplete="off"
                       />
                     </motion.div>
                     <motion.div
@@ -321,6 +346,7 @@ const ContactSection: React.FC = () => {
                         onChange={handleInputChange}
                         placeholder="Your company name"
                         className="w-full transition-all duration-300 focus:ring-2 focus:ring-blue-500 text-xs xs:text-sm sm:text-base"
+                        autoComplete="off"
                       />
                     </motion.div>
                   </div>
@@ -365,6 +391,7 @@ const ContactSection: React.FC = () => {
                       placeholder="Tell us about your import/export requirements..."
                       rows={4}
                       className="w-full transition-all duration-300 focus:ring-2 focus:ring-blue-500 text-xs xs:text-sm sm:text-base"
+                      autoComplete="off"
                     />
                   </motion.div>
 

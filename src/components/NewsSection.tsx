@@ -25,27 +25,25 @@ const Dialog = ({ open, onClose, children }: { open: boolean; onClose: () => voi
 };
 
 const NewsSection: React.FC = () => {
-  const [visibleItems, setVisibleItems] = useState(5);
-  const [selectedArticle, setSelectedArticle] = useState<typeof news[0] | null>(null);
-
+  // Show all news items by default, since "View More News" is removed
   const news = [
     {
       id: 1,
-      title: "New Trade Agreement Opens Markets in Southeast Asia",
-      excerpt: "Recent bilateral agreements have opened new opportunities for exporters looking to expand into emerging markets.",
-      date: "2024-01-15",
-      category: "Trade Policy",
-      image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=400&h=250&fit=crop",
-      readTime: "5 min read"
-    },
-    {
-      id: 2,
       title: "Digital Documentation Reduces Processing Time by 60%",
       excerpt: "Our new digital platform streamlines customs documentation, significantly reducing processing times for international shipments.",
       date: "2024-01-10",
       category: "Technology",
       image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=400&h=250&fit=crop",
       readTime: "3 min read"
+    },
+    {
+      id: 2,
+      title: "AI-Powered Tracking Enhances Shipment Visibility",
+      excerpt: "Advanced AI algorithms now provide real-time tracking and predictive delivery estimates for all shipments.",
+      date: "2024-01-09",
+      category: "Innovation",
+      image: "https://images.unsplash.com/photo-1519125323398-675f0ddb6308?w=400&h=250&fit=crop",
+      readTime: "4 min read"
     },
     {
       id: 3,
@@ -91,8 +89,37 @@ const NewsSection: React.FC = () => {
       category: "Expansion",
       image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=400&h=250&fit=crop",
       readTime: "5 min read"
+    },
+    {
+      id: 8,
+      title: "Blockchain Integration Secures Supply Chain",
+      excerpt: "Implementation of blockchain technology ensures transparency and security in all supply chain operations.",
+      date: "2023-12-15",
+      category: "Technology",
+      image: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=400&h=250&fit=crop",
+      readTime: "5 min read"
+    },
+    {
+      id: 9,
+      title: "Employee Training Program Launched",
+      excerpt: "A new training initiative aims to upskill employees in digital logistics and customer service.",
+      date: "2023-12-10",
+      category: "HR",
+      image: "https://images.unsplash.com/photo-1521737852567-6949f3f9f2b5?w=400&h=250&fit=crop",
+      readTime: "2 min read"
+    },
+    {
+      id: 10,
+      title: "Partnership with EcoFleet for Greener Deliveries",
+      excerpt: "Collaboration with EcoFleet introduces electric vehicles to our delivery fleet, reducing our carbon footprint.",
+      date: "2023-12-05",
+      category: "Partnership",
+      image: "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?w=400&h=250&fit=crop",
+      readTime: "3 min read"
     }
   ];
+
+  const [selectedArticle, setSelectedArticle] = useState<typeof news[0] | null>(null);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -124,28 +151,26 @@ const NewsSection: React.FC = () => {
   };
 
   return (
-    <section className="py-20 bg-gradient-to-br from-white to-blue-50 dark:from-gray-900 dark:to-slate-900">
-      <div className="container mx-auto px-4">
+    <section className="relative py-24  text-left bg-gradient-to-br from-blue-50 via-white to-indigo-100 dark:from-gray-950 dark:via-gray-900 dark:to-slate-900 overflow-hidden">
+      {/* Decorative background shapes */}
+      <div className="pointer-events-none absolute -top-32 -left-32 w-[28rem] h-[28rem] bg-gradient-to-br from-blue-400/20 via-indigo-400/10 to-transparent rounded-full blur-3xl" />
+      <div className="pointer-events-none absolute bottom-0 right-0 w-[18rem] h-[18rem] bg-gradient-to-tr from-indigo-400/20 via-purple-400/10 to-transparent rounded-full blur-2xl" />
+
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="text-center mb-20"
         >
-          <div
-            className="inline-flex items-center px-4 py-2 bg-blue-100 dark:bg-blue-900 rounded-full text-blue-600 dark:text-blue-400 text-sm font-medium mb-4"
-          >
-            <Newspaper className="w-4 h-4 mr-2" />
-            Latest News
+          <div className="inline-flex items-center px-6 py-3 rounded-full bg-gradient-to-r from-blue-500/20 via-indigo-500/10 to-purple-500/10 text-blue-700 dark:text-blue-300 mb-4 text-base font-semibold shadow-md backdrop-blur-md">
+            <Newspaper className="w-5 h-5 mr-2 text-blue-600 dark:text-blue-300" />
+            <span>Latest News</span>
           </div>
-          <h2
-            className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6"
-          >
+          <h2 className="text-4xl xs:text-5xl sm:text-6xl font-extrabold bg-gradient-to-r from-blue-700 via-indigo-700 to-purple-700 dark:from-blue-400 dark:via-indigo-400 dark:to-purple-400 bg-clip-text text-transparent mb-5">
             Industry Updates & News
           </h2>
-          <p
-            className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto"
-          >
+          <p className="text-lg sm:text-xl md:text-2xl text-gray-700 dark:text-gray-200 max-w-2xl sm:max-w-3xl mx-auto leading-relaxed font-medium">
             Stay informed about the latest developments in international trade and logistics.
           </p>
         </motion.div>
@@ -155,9 +180,9 @@ const NewsSection: React.FC = () => {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
-          className="grid grid-cols-1 md:grid-cols-2 gap-8"
+          className="grid grid-cols-1 md:grid-cols-2 gap-10"
         >
-          {news.slice(0, visibleItems).map((article, index) => (
+          {news.map((article, index) => (
             <motion.div
               key={article.id}
               className="h-full"
@@ -165,110 +190,96 @@ const NewsSection: React.FC = () => {
               data-aos="fade-up"
               data-aos-delay={300 + index * 100}
             >
-              <Card className={`group hover:shadow-2xl text-left transition-all duration-300 transform hover:-translate-y-1 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-0 shadow-lg overflow-hidden h-full flex flex-col ${index === 0 ? 'md:col-span-2 md:flex-row' : ''}`}>
-                <div
-                  className={`${index === 0 ? 'md:w-1/2' : ''} relative overflow-hidden ${index === 0 ? 'md:h-auto' : 'h-48'}`}
-                >
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent z-10"></div>
+              <Card className={`group relative overflow-hidden flex flex-col min-h-[320px] bg-white/90 dark:bg-gray-900/80 border-0 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1`}>
+                {/* Image Section */}
+                <div className="relative overflow-hidden h-52">
                   <img
                     src={article.image}
                     alt={article.title}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   />
-                  <div className="absolute top-4 left-4 z-20">
-                    <Badge className={`${index === 0 ? 'px-4 py-1.5 text-sm' : ''} bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg`}>
+                  {/* Overlay gradient */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent z-10" />
+                  {/* Category badge */}
+                  <div className="absolute top-5 left-5 z-20">
+                    <Badge className="px-3 py-1 text-sm bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg">
                       {article.category}
                     </Badge>
                   </div>
-                  {index === 0 && (
-                    <div className="absolute bottom-4 left-4 z-20">
-                      <Badge className="bg-white/90 dark:bg-gray-800/90 text-blue-600 dark:text-blue-400 shadow-lg">
-                        Featured Article
-                      </Badge>
-                    </div>
-                  )}
                 </div>
-                <div
-                  className={`${index === 0 ? 'md:w-1/2' : ''} flex flex-col flex-grow p-6 ${index === 0 ? 'md:p-8' : ''}`}
-                >
+                {/* Content Section */}
+                <div className="flex flex-col flex-grow p-7">
                   <div className="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-3">
                     <Calendar className="w-4 h-4 mr-2 text-blue-500" />
                     {formatDate(article.date)}
                     <span className="mx-2 text-gray-300 dark:text-gray-600">•</span>
                     <span className="text-blue-500">{article.readTime}</span>
                   </div>
-                  <h3 className={`font-bold text-gray-900 dark:text-white group-hover:text-blue-600 transition-colors line-clamp-2 mb-3 ${index === 0 ? 'text-2xl md:text-3xl' : 'text-xl'}`}>
+                  <h3 className="font-extrabold text-gray-900 dark:text-white group-hover:text-blue-700 transition-colors line-clamp-2 mb-3 text-xl">
                     {article.title}
                   </h3>
-                  <p className={`text-gray-600 dark:text-gray-300 line-clamp-3 mb-4 flex-grow ${index === 0 ? 'text-lg' : ''}`}>
+                  <p className="text-gray-600 dark:text-gray-300 line-clamp-3 mb-5 flex-grow">
                     {article.excerpt}
                   </p>
-                  <Button
-                    variant="ghost"
-                    className={`group/btn p-0 h-auto text-blue-600 hover:text-blue-700 w-fit ${index === 0 ? 'text-lg' : ''}`}
-                    onClick={() => setSelectedArticle(article)}
-                  >
-                    Read More
-                    <ArrowRight className={`ml-2 group-hover/btn:translate-x-1 transition-transform ${index === 0 ? 'w-5 h-5' : 'w-4 h-4'}`} />
-                  </Button>
+                  <div className="flex items-center mt-auto">
+                    <Button
+                      variant="ghost"
+                      className="group/btn p-0 h-auto text-blue-600 hover:text-blue-700 w-fit font-semibold tracking-wide"
+                      onClick={() => setSelectedArticle(article)}
+                    >
+                      Read More
+                      <ArrowRight className="ml-2 group-hover/btn:translate-x-1 transition-transform w-4 h-4" />
+                    </Button>
+                  </div>
                 </div>
+                {/* Decorative floating ring */}
+                <div className="absolute -top-8 -right-8 w-24 h-24 bg-gradient-to-br from-blue-400/20 to-indigo-400/10 rounded-full blur-2xl opacity-60 pointer-events-none" />
               </Card>
             </motion.div>
           ))}
         </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-center mt-12"
-        >
-          {visibleItems < news.length && (
-            <Button 
-              size="lg" 
-              className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-8 transition-transform duration-300 hover:scale-105"
-              onClick={() => setVisibleItems(prev => prev + 5)}
-            >
-              View More News
-            </Button>
-          )}
-        </motion.div>
+        {/* Removed View More News button */}
       </div>
 
+      {/* Dialog for Article Details */}
       <Dialog open={!!selectedArticle} onClose={() => setSelectedArticle(null)}>
         {selectedArticle && (
-          <div className="p-6 sm:p-10">
-            <div className="flex flex-col gap-6">
-              <div className="relative w-full h-[300px] rounded-xl overflow-hidden shadow-lg">
+          <div className="p-0 sm:p-0">
+            <div className="flex flex-col md:flex-row gap-0 md:gap-10">
+              {/* Image with overlay */}
+              <div className="relative w-full md:w-[420px] h-[220px] md:h-[420px] rounded-t-xl md:rounded-l-xl md:rounded-tr-none overflow-hidden shadow-xl">
                 <img
                   src={selectedArticle.image}
                   alt={selectedArticle.title}
                   className="w-full h-full object-cover"
                 />
-                <div className="absolute top-4 left-4">
-                  <Badge className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent z-10" />
+                <div className="absolute top-5 left-5 z-20">
+                  <Badge className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg px-4 py-1.5 text-base">
                     {selectedArticle.category}
                   </Badge>
                 </div>
               </div>
-              <div className="flex flex-col">
-                <h3 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-2">
+              {/* Content */}
+              <div className="flex-1 flex flex-col p-6 sm:p-10">
+                <h3 className="text-2xl sm:text-3xl font-extrabold text-gray-900 dark:text-white mb-3">
                   {selectedArticle.title}
                 </h3>
-                <div className="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-4">
+                <div className="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-5">
                   <Calendar className="w-4 h-4 mr-2 text-blue-500" />
                   {formatDate(selectedArticle.date)}
                   <span className="mx-2 text-gray-300 dark:text-gray-600">•</span>
                   <span className="text-blue-500">{selectedArticle.readTime}</span>
                 </div>
-                <div className="space-y-4">
-                  <p className="text-gray-600 dark:text-gray-300 text-lg leading-relaxed">
+                <div className="space-y-5">
+                  <p className="text-gray-700 dark:text-gray-200 text-lg leading-relaxed">
                     {selectedArticle.excerpt}
                   </p>
-                  <p className="text-gray-600 dark:text-gray-300 text-lg leading-relaxed">
+                  <p className="text-gray-600 dark:text-gray-300 text-base leading-relaxed">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
                   </p>
-                  <p className="text-gray-600 dark:text-gray-300 text-lg leading-relaxed">
+                  <p className="text-gray-600 dark:text-gray-300 text-base leading-relaxed">
                     Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
                   </p>
                 </div>
