@@ -61,7 +61,7 @@ const OrderPage: React.FC = () => {
           transition={{ duration: 0.5, delay: 0.3 }}
           className="max-w-9xl mx-auto"
         >
-          <div className="bg-white dark:bg-gradient-to-br dark:from-gray-800/50 dark:to-gray-900/50 dark:backdrop-blur-xl rounded-xl sm:rounded-2xl lg:rounded-3xl shadow-2xl overflow-hidden border border-gray-200 dark:border-gray-700/50 transition-colors">
+          <div className="bg-gray-800 dark:bg-gradient-to-br dark:from-gray-800/50 dark:to-gray-900/50 dark:backdrop-blur-xl rounded-xl sm:rounded-2xl lg:rounded-3xl shadow-2xl overflow-hidden border border-gray-200 dark:border-gray-700/50 transition-colors">
             {/* Tab Navigation */}
             <div className="flex border-b border-gray-200 dark:border-gray-700/50 transition-colors">
               <button
